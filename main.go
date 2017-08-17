@@ -56,7 +56,7 @@ func FetchSingleTodo(c *gin.Context) {
 func DeleteSingleTodo(c *gin.Context) {
 	todoId, _ := strconv.Atoi(c.Param("id"))
 	remove(todoId)
-	c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": "deleted"}) //TODO append id deleted
+	c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": "deleted"})
 }
 
 func UpdateSingleTodo(c *gin.Context) {
