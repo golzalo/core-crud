@@ -1,12 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 type Todo struct {
 	ID        int    `json:"id"`
 	Title     string `json:"title" binding:"required"`
-	Completed int    `json:"completed" binding:"required"` //TODO investigar porq me exige tener 1 como valor y no cero
+	Completed int    `json:"completed" default:"0"`
 }
+
+type TodoSortWrapper []*Todo
+
+func (c TodoSortWrapper) Len() int           { return len(c) }
+func (c TodoSortWrapper) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
+func (c TodoSortWrapper) Less(i, j int) bool { return c[i].ID > c[j].ID }
 
 var memory = map[int]*Todo{}
 var counter int = 0
@@ -31,6 +40,7 @@ func getAll() []*Todo {
 	for _, value := range memory {
 		v = append(v, value)
 	}
+	sort.Sort(TodoSortWrapper(v))
 	return v
 }
 
